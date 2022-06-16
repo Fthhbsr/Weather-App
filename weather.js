@@ -28,6 +28,22 @@ const getWeatherDataFromApi = async () => {
     console.log(response.data);
     let iconUrl = `http://openweathermap.org/img/wn/${weather[0].icon}@2x.png`;
 
+    const cityListItems = list.querySelectorAll(".city");
+    const cityListItemsArray = Array.from(cityListItems);
+    if (cityListItemsArray.length > 0) {
+      const filteredArray = cityListItemsArray.filter(
+        (cityCard) => cityCard.querySelector("span").innerText == name
+      );
+
+      if (filteredArray.length > 0) {
+        msg.innerText = `You already know the weather for ${name}, Please search for another city 😉`;
+        setTimeout(() => {
+          msg.innerText = "";
+        }, 5000);
+        form.reset();
+        return;
+      }
+    }
     const createdLi = document.createElement("li");
     createdLi.classList.add("city");
     const createdLiInnerHTML = `<h2 class="city-name" data-name="${name}, ${
@@ -42,8 +58,13 @@ const getWeatherDataFromApi = async () => {
           <figcaption>${weather[0].description}</figcaption>
       </figure>`;
     createdLi.innerHTML = createdLiInnerHTML;
-    list.append(createdLi);
-  } catch (error) {}
+    list.prepend(createdLi);
+  } catch (error) {
+    msg.innerText = error;
+    setTimeout(() => {
+      msg.innerText = "";
+    }, 5000);
+  }
   form.reset();
 };
 
