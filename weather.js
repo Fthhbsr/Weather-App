@@ -3,29 +3,35 @@ const input = document.querySelector(".top-banner input");
 const msg = document.querySelector("span.msg");
 const list = document.querySelector(".ajax-section .cities");
 
-form.addEventListener("submit", () => {
+// localStorage.setItem("apiKey", EncryptStringAES("fc216cb1fd2ce5d7f04e79e272fe97cf"));
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
   getWeatherDataFromApi();
 });
 
 const getWeatherDataFromApi = () => {
-  alert("http request sended");
+  // alert("http request gone");
+  //form.reset();
+  let tokenKey = DecryptStringAES(localStorage.getItem("apiKey"));
+  // console.log(apiKey);
+  let inputVal = input.value;
+  let unitType = "metric";
+  let lang = "tr";
+  let url = `https://api.openweathermap.org/data/2.5/weather?q=${inputVal}&appid=${tokenKey}&units=${unitType}&lang=${lang}`;
+  form.reset();
 };
-
-// localStorage.setItem(
-//   "apiKey",
-//   EncryptStringAES("fc216cb1fd2ce5d7f04e79e272fe97cf")
-// );
 
 // const search = document.querySelector("button");
 // const cityInput = document.querySelector("input");
 // const container = document.querySelector(".cities");
 
 // const getWeatherInfo = async () => {
-//   // if (
-//   //   container.innerHTML.toLowerCase().includes(cityInput.value.toLowerCase())
-//   // ) {
-//   //   alert(cityInput.value + " is already exists");
-//   // }
+// if (
+//   container.innerHTML.toLowerCase().includes(cityInput.value.toLowerCase())
+// ) {
+//   alert(cityInput.value + " is already exists");
+// }
 
 //   const key = `fc216cb1fd2ce5d7f04e79e272fe97cf`;
 //   const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput.value}&units=metric&appid=${key}`;
